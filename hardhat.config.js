@@ -5,13 +5,13 @@ require("dotenv").config();
 module.exports = {
   solidity: "0.8.18",
   networks: {
-    mumbai: {
-      url: 'https://rpc-mumbai.maticvigil.com',
+    amoy: {
+      url: "https://polygon-amoy.g.alchemy.com/v2/xISVy20DszdNw5uakCDIhIsegXfROLT1",
       accounts: [process.env.PRIVATE_KEY],
     },
-    goerli: {
-      url: 'https://ethereum-goerli.publicnode.com',
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/xISVy20DszdNw5uakCDIhIsegXfROLT1",
       accounts: [process.env.PRIVATE_KEY],
     },
-  }
+  },
 };

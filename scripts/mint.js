@@ -5,26 +5,31 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
-const tokenContractJSON = require("../artifacts/contracts/MetaToken.sol/MetaToken.json");
-require('dotenv').config()
-
-const tokenAddress = ""; // place your erc20 contract address here
-const tokenABI = tokenContractJSON.abi;
-const walletAddress = ""; // place your public address for your wallet here
+require("dotenv").config();
 
 async function main() {
+  const privateKey = process.env.PRIVATE_KEY;
 
-    const token = await hre.ethers.getContractAt(tokenABI, tokenAddress);
-  
-    const tx = await token.mint(walletAddress, 1000);
-    await tx.wait();
+  const networkAddress =
+    "https://eth-sepolia.g.alchemy.com/v2/xISVy20DszdNw5uakCDIhIsegXfROLT1";
 
-    console.log("You now have: " + await token.balanceOf(walletAddress) + " tokens");
-  }
-  
-  // We recommend this pattern to be able to use async/await everywhere
-  // and properly handle errors.
-  main().catch((error) => {
+  const provider = new ethers.providers.JsonRpcProvider(networkAddress);
+
+  const signer = new ethers.Wallet(privateKey, provider);
+
+  const contractAddress = "0xEf31cE9220aAfa768ACb59Fd944661C0FD89FE7c";
+
+  const mountainwolfNFT = await ethers.getContractFactory("mountainwolf", signer);
+  const contract = await mountainwolfNFT.attach(contractAddress);
+
+  await contract.mint(5);
+
+  console.log("Minted 5 tokens");
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
     console.error(error);
-    process.exitCode = 1;
+    process.exit(1);
   });

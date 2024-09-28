@@ -5,22 +5,21 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
-const tokenContractJSON = require("../artifacts/contracts/MetaToken.sol/MetaToken.json");
+const tokenContractJSON = require("../artifacts/contracts/mountainwolf.sol/mountainwolf.json");
 
-const tokenAddress = ""; // place your erc20 contract address here
+const tokenAddress = "0xE507f36e486f4442d47e4581FDBB714BDdF33fC0"; 
 const tokenABI = tokenContractJSON.abi;
-const walletAddress = ""; // place your public address for your wallet here
+const walletAddress = "0xE5E024f26bDE47ca4163Dc6151064eB90EfC4EF4";
 
 async function main() {
-
+  try {
     const token = await hre.ethers.getContractAt(tokenABI, tokenAddress);
-
-    console.log("You now have: " + await token.balanceOf(walletAddress) + " tokens");
-  }
-  
-  // We recommend this pattern to be able to use async/await everywhere
-  // and properly handle errors.
-  main().catch((error) => {
+    const balance = await token.balanceOf(walletAddress);
+    console.log(`You now have: ${balance} NFTs in your wallet`);
+  } catch (error) {
     console.error(error);
     process.exitCode = 1;
-  });
+  }
+}
+
+main();
